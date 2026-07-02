@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head'); %>
+</head>
+
+<body class="container">
+
+    <header>
+        <%- include('../partials/header'); %>
+    </header>
+
+    <section id="cliente-form">
+        <h2>Registrar cliente</h2>
+        <div class="container">
+            <form action="/api/v1/usuarios" method="POST">
+                <div class="mb-3">
+                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Correo" name="email">
+                    <input type="password" class="form-control" id="exampleFormControlInput1" placeholder="Clave" name="password">
+                    <select name="rol" id="">
+                        <option value="">Rol</option>
+                        <option value="cliente">Cliente</option>
+                        <option value="empleado">Empleado</option>
+                        <option value="administrador">Administrador</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary">Registrar</button>
+                </div>
+            </form>
+        </div>
+    </section>
+    
+
+    <footer>
+        <%- include('../partials/footer'); %>
+    </footer>
+
+</body>
+</html>
+
+<style>
+    h2{
+        text-align: center;
+    }
+    .btn{
+        display: flex;
+        justify-self: center;
+        justify-content: center;
+        margin-top: 20px;
+        background-color: #555;
+        border: none !important;
+    }
+    .btn:hover {
+        background-color: #444;
+    }
+    .btn:active {
+        transform: translateY(2px);
+        background-color: #222 !important;
+    }
+
+    .form-control:focus {
+        box-shadow: 2px 2px 20px 2px rgba(131, 130, 130, 0.5);
+        border: .5px solid #333;
+        outline: none;
+    }
+    .mb-3 {
+        height: 25vh !important;
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around !important;
+        justify-self: center;
+    }
+</style>

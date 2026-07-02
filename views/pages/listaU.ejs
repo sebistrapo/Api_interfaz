@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head'); %>
+</head>
+
+<body class="container">
+
+    <header>
+        <%- include('../partials/header'); %>
+    </header>
+    <main>
+        <div class="jumbotron">
+            <h1>Clientes</h1>
+            <table id="myTable" class="table table-hover table table-striped">
+                <thead>
+                    <tr>
+                        <strong>
+                                <th>N°</th>
+                                <th>Correo</th>
+                                <th>Contraseña</th>
+                                <th>Rol</th>
+                                <th>Acciones</th>
+
+                        </strong>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <% let cont = 0; %>
+                    
+                    <% usuarios.forEach(function(cliente, index) { %>
+                        <% cont+=1 %>
+                        <tr>
+                            <td><%- cont %></td>
+                            <td><%- cliente.email %></td>
+                            <td><%- cliente.password %></td>
+                            <td><%- cliente.rol %></td>
+                            <td>
+                                <button type="button" class="btn btn-1" onclick="Detalles('<%- cont %>', '<%- cliente.nombre %>', '<%- cliente.email %>', '<%- cliente.telefono %>')">Detalles</button>
+                                <button type="button" class="btn btn-2" onclick="Editar('<%- cont %>', '<%- cliente.nombre %>', '<%- cliente.email %>', '<%- cliente.telefono %>')">Editar</button>
+                                <button type="button" onclick="confirm('¿Seguro que quiere eliminar el Cliente?');" class="btn btn-3" href="/api/v1/clientes/<%- cliente.telefono %>">Eliminar</button>
+                            </td>
+                        </tr>
+                        <% }); %>
+
+                        <div id="ModalDetalles">
+                            <div class="modalBody">
+
+                            </div>
+                        </div>
+                            
+                        <div id="ModalEditar">
+                            <div class="modalBody">
+
+                            </div>
+                        </div>
+                            
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+
+<footer>
+    <%- include('../partials/footer'); %>
+</footer>
+
+<script>
+
+    
+
+    function Detalles(i, n, e, t) {
+        ModalDetalles.style.visibility = "visible";
+        let container = document.querySelector('#ModalDetalles .modalBody');
+        container.innerHTML = "";
+
+        let ul = document.createElement("ul");
+        let li1 = document.createElement("li");
+        let li2 = document.createElement("li");
+        let li3 = document.createElement("li");
+        let h3 = document.createElement("h3");
+        let span1 = document.createElement("span");
+        let span2 = document.createElement("span");
+        let span3 = document.createElement("span");
+        let datos1 = document.createTextNode(i);
+        let datos2 = document.createTextNode(e);
+        let datos3 = document.createTextNode(t);
+        let spandata = document.createElement("span");
+        let data = document.createTextNode(n);
+        spandata.appendChild(data);
+        let text = document.createTextNode("Datos de ");
+        h3.appendChild(text);
+        h3.appendChild(spandata);
+        container.appendChild(h3);
+
+        let CloseDetalles = document.createElement('button');
+
+        CloseDetalles.id = "CloseDetalles";
+        CloseDetalles.type = "button";
+        CloseDetalles.classList = "btn btnClose";
+        CloseDetalles.textContent = "Cerrar";
+
+        span1.classList = "font-weight";
+        span2.classList = "font-weight";
+        span3.classList = "font-weight";
+
+        span1.textContent = `ID: `;
+        span2.textContent = `Correo: `;
+        span3.textContent = `Teléfono: `;
+
+        li1.appendChild(span1);
+        li1.appendChild(datos1);
+        li2.appendChild(span2);
+        li2.appendChild(datos2);
+        li3.appendChild(span3);
+        li3.appendChild(datos3);
+        
+        ul.appendChild(li1);
+        ul.appendChild(li2);
+        ul.appendChild(li3);
+
+        container.appendChild(ul);
+        container.appendChild(CloseDetalles);
+
+        CloseDetalles.addEventListener("click", () => {
+            ModalDetalles.style.visibility = "hidden";
+        })
+    }
+
+    function Editar(i, n, e, t) {
+        ModalEditar.style.visibility = "visible";
+
+        let container = document.querySelector('#ModalEditar .modalBody');
+
+        let form = document.createElement('form');
+        let input1 = document.createElement('input');
+        let input2 = document.createElement('input');
+        let input3 = document.createElement('input');
+        let btn = document.createElement('button');
+        container.innerHTML = "";
+        let CloseEditar = document.createElement('button');
+        let h3 = document.createElement('h3');
+        h3.textContent = "Actualización de datos";
+        container.appendChild(h3);
+
+
+        CloseEditar.id = "CloseEditar";
+        CloseEditar.type = "button";
+        CloseEditar.classList = "btn btnClose";
+        CloseEditar.textContent = "Cerrar";
+        btn.classList = "btn-verificar";
+        form.action = `/api/v1/clientes/${t}?_method=PUT`;
+        form.method = "POST";
+        input1.name = "nombre";
+        input2.name = "email";
+        input3.name = "telefono";
+        input1.defaultValue = `${n}`;
+        input2.defaultValue = `${e}`;
+        input3.defaultValue = `${t}`;
+        btn.textContent = "Verificar";
+        btn.type = "submit";
+
+        form.appendChild(input1);
+        form.appendChild(input2);
+        form.appendChild(input3);
+        form.appendChild(btn);
+        form.appendChild(CloseEditar);
+        container.appendChild(form);
+
+        CloseEditar.addEventListener("click", () => {
+            ModalEditar.style.visibility = "hidden";
+        });
+    }
+</script>
+
+<style>
+
+    #ModalDetalles, #ModalEditar {
+        visibility:hidden;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 2;
+        position: fixed;
+        display: grid;
+        place-items: center;
+        animation: Modal 0.5s ease-in;
+
+        .modalBody {
+            background-color: #eee;
+            height: 50%;
+            width: 50%;
+            display: grid;
+            place-items: center;
+            text-align: start;
+            border-radius: 15px;
+
+            .btnClose {
+                transition: color .2s ease;
+            }
+            .btnClose:hover {
+                color: red;
+            }
+        }
+    }
+
+    #ModalDetalles .modalBody {
+        h3 {
+            font-size: 2rem;
+            width: 100%;
+            border-bottom: 2px solid #444;
+            text-align: center;
+            color: #555;
+
+            span {
+                color: #222;
+            }
+        }
+        ul li {
+            list-style: none;
+            font-size: 1.5rem;
+            color: #555;
+
+        }
+        .font-weight {
+            font-weight: bold;
+        }
+    }
+
+    #ModalEditar .modalBody {
+        padding-bottom: 20px;
+        h3 {
+            font-weight: bolder;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            justify-self: center;
+            justify-content: space-around;
+            align-self: center;
+            height: 100%;
+            width: 80%;
+
+            input {
+                height: 4vh;
+            }
+
+            .btn-verificar {
+                height: 4vh;
+                background-color: rgb(255, 162, 0);
+                border: none;
+                border-radius: 5px;
+                transition: transform .2s ease;
+            }
+            .btn-verificar:active {
+                transform: translateY(-2);
+            }
+        }
+    }
+
+    .jumbotron {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: none;
+        border-radius: 20px !important;
+        box-shadow: -5px 5px 20px 2px rgba(0,0,0,0.5);
+        margin-top: 20px;
+        margin-bottom: 40px;
+        transition: transform 0.2s ease;
+        padding: 20px;
+
+        table {
+            width: 100%;
+        }
+    }
+
+    .jumbotron:hover {
+        transform: translateY(-2px);
+    }
+
+    .jumbotron table {
+        text-align: center;
+    }
+
+    .btn {
+        background-color: #b3b1c0;
+        color: #000;
+        transition: transform .2s ease;
+    }
+
+    .btn:active {
+        background-color: #eee;
+        transform: translateY(-2px);
+    }
+    .btn:hover {
+        background-color: #b3b1c0;
+    }
+    .jumbotron table {
+        .btn-1:hover {
+            color: yellow;
+        }
+        .btn-1:active {
+            color: orange;
+        }
+        .btn-2:hover {
+            color: greenyellow;
+        }
+        .btn-2:active {
+            color: green;
+        }
+        .btn-3:hover {
+            color: red;
+        }
+    }
+
+    #dt-search-0:focus, #dt-length-0:focus {
+        box-shadow: -1px 1px 20px 1px rgba(140, 140, 140, 0.5) !important;
+        border: .5px solid #555;
+    }
+
+    footer {
+        margin-top: 40px;
+    }
+    #myTable_wrapper {
+        width: 100%;
+    }
+
+    @keyframes Modal {
+        0% {
+            transform: translateY(-40px);
+        }
+        100% {
+            transform: translateY(0);
+        }
+    }
+
+</style>
+
+<script>
+    new DataTable('#myTable');
+</script>
+
+</body>
+</html>

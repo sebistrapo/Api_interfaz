@@ -39,7 +39,7 @@
                             <td>
                                 <button type="button" class="btn btn-1" onclick="Detalles('<%- cont %>', '<%- cliente.nombre %>', '<%- cliente.email %>', '<%- cliente.telefono %>')">Detalles</button>
                                 <button type="button" class="btn btn-2" onclick="Editar('<%- cont %>', '<%- cliente.nombre %>', '<%- cliente.email %>', '<%- cliente.telefono %>')">Editar</button>
-                                <button type="button" class="btn btn-3" href="/api/v1/clientes/<%- cliente.telefono %>">Eliminar</button>
+                                <button type="button" onclick="confirm('¿Seguro que quiere eliminar el Cliente?');" class="btn btn-3" href="/api/v1/clientes/<%- cliente.telefono %>">Eliminar</button>
                             </td>
                         </tr>
                         <% }); %>
@@ -68,6 +68,7 @@
 
 <script>
 
+    
 
     function Detalles(i, n, e, t) {
         ModalDetalles.style.visibility = "visible";
@@ -149,8 +150,11 @@
         CloseEditar.classList = "btn btnClose";
         CloseEditar.textContent = "Cerrar";
         btn.classList = "btn-verificar";
-        form.action = `/api/v1/clientes/${t}`;
+        form.action = `/api/v1/clientes/${t}?_method=PUT`;
         form.method = "POST";
+        input1.name = "nombre";
+        input2.name = "email";
+        input3.name = "telefono";
         input1.defaultValue = `${n}`;
         input2.defaultValue = `${e}`;
         input3.defaultValue = `${t}`;
@@ -181,6 +185,7 @@
         position: fixed;
         display: grid;
         place-items: center;
+        animation: Modal 0.5s ease-in;
 
         .modalBody {
             background-color: #eee;
@@ -321,6 +326,15 @@
     }
     #myTable_wrapper {
         width: 100%;
+    }
+
+    @keyframes Modal {
+        0% {
+            transform: translateY(-40px);
+        }
+        100% {
+            transform: translateY(0);
+        }
     }
 
 </style>

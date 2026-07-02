@@ -56,8 +56,7 @@ exports.insertar = async (req, res) => {
        
         const clientes = await modeloCliente.insertOne(clienteNuevo);
 
-        res.json(clientes);
-        res.render('pages/lista');
+        res.redirect('/api/v1/clientes');
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -73,11 +72,11 @@ exports.update = async (req, res) => {
 
 
         const cliente = await modeloCliente.updateOne(
-            { "nombre": req.params.nombre },
+            { "telefono": req.params.telefono },
             { $set:clienteActualizado }
         );
 
-        res.json(cliente);
+        res.redirect('/api/v1/clientes');
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -87,8 +86,7 @@ exports.eliminar = async (req, res) => {
     try {
         const cliente = await modeloCliente.findOneAndDelete({ telefono: req.params.telefono});
 
-        res.json(cliente);
-        res.render('pages/lista');
+        res.redirect('/api/v1/clientes');
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
