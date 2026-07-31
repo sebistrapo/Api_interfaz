@@ -12,7 +12,7 @@
     </header>
     <main>
         <div class="jumbotron">
-            <h1>Clientes</h1>
+            <h1>Usuarios</h1>
             <table id="myTable" class="table table-hover table table-striped">
                 <thead>
                     <tr>
@@ -37,9 +37,9 @@
                             <td><%- cliente.password %></td>
                             <td><%- cliente.rol %></td>
                             <td>
-                                <button type="button" class="btn btn-1" onclick="Detalles('<%- cont %>', '<%- cliente.nombre %>', '<%- cliente.email %>', '<%- cliente.telefono %>')">Detalles</button>
-                                <button type="button" class="btn btn-2" onclick="Editar('<%- cont %>', '<%- cliente.nombre %>', '<%- cliente.email %>', '<%- cliente.telefono %>')">Editar</button>
-                                <button type="button" onclick="confirm('¿Seguro que quiere eliminar el Cliente?');" class="btn btn-3" href="/api/v1/clientes/<%- cliente.telefono %>">Eliminar</button>
+                                <button type="button" class="btn btn-1" onclick="Detalles('<%- cont %>', '<%- cliente.email %>', '<%- cliente.password %>', '<%- cliente.rol %>')">Detalles</button>
+                                <button type="button" class="btn btn-2" onclick="Editar('<%- cont %>', '<%- cliente.email %>', '<%- cliente.password %>', '<%- cliente.rol %>')">Editar</button>
+                                <button type="button" onclick="alert('Función no disponible');" class="btn btn-3">Eliminar</button>
                             </td>
                         </tr>
                         <% }); %>
@@ -70,7 +70,7 @@
 
     
 
-    function Detalles(i, n, e, t) {
+    function Detalles(i, e, c, r) {
         ModalDetalles.style.visibility = "visible";
         let container = document.querySelector('#ModalDetalles .modalBody');
         container.innerHTML = "";
@@ -79,15 +79,16 @@
         let li1 = document.createElement("li");
         let li2 = document.createElement("li");
         let li3 = document.createElement("li");
+        let li4 = document.createElement("li");
         let h3 = document.createElement("h3");
         let span1 = document.createElement("span");
         let span2 = document.createElement("span");
         let span3 = document.createElement("span");
         let datos1 = document.createTextNode(i);
-        let datos2 = document.createTextNode(e);
-        let datos3 = document.createTextNode(t);
+        let datos2 = document.createTextNode(c);
+        let datos3 = document.createTextNode(r);
         let spandata = document.createElement("span");
-        let data = document.createTextNode(n);
+        let data = document.createTextNode(e);
         spandata.appendChild(data);
         let text = document.createTextNode("Datos de ");
         h3.appendChild(text);
@@ -106,8 +107,8 @@
         span3.classList = "font-weight";
 
         span1.textContent = `ID: `;
-        span2.textContent = `Correo: `;
-        span3.textContent = `Teléfono: `;
+        span2.textContent = `Contraseña: `;
+        span3.textContent = `Rol: `;
 
         li1.appendChild(span1);
         li1.appendChild(datos1);
@@ -152,9 +153,9 @@
         btn.classList = "btn-verificar";
         form.action = `/api/v1/clientes/${t}?_method=PUT`;
         form.method = "POST";
-        input1.name = "nombre";
-        input2.name = "email";
-        input3.name = "telefono";
+        input1.name = "Correo";
+        input2.name = "Clave";
+        input3.name = "Rol";
         input1.defaultValue = `${n}`;
         input2.defaultValue = `${e}`;
         input3.defaultValue = `${t}`;
@@ -172,6 +173,7 @@
             ModalEditar.style.visibility = "hidden";
         });
     }
+    
 </script>
 
 <style>
@@ -259,11 +261,12 @@
             }
         }
     }
-
     .jumbotron {
+        height: 70vh;
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
         border: none;
         border-radius: 20px !important;
         box-shadow: -5px 5px 20px 2px rgba(0,0,0,0.5);
@@ -326,6 +329,7 @@
     }
     #myTable_wrapper {
         width: 100%;
+        height: 100%;
     }
 
     @keyframes Modal {

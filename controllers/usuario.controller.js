@@ -52,7 +52,6 @@ exports.insertar = async (req, res) => {
            rol: req.body.rol
        };
 
-       console.log(usuarioNuevo);
        
         const usuario = await modeloUsuario.insertOne(usuarioNuevo);
 

@@ -22,4 +22,7 @@ router.get('/contacto', usuarioController.contacto);
 
 router.post('/email-adress', usuarioController.enviaCorreo);
 
+router.get('/productos', clienteController.productos);
+
+
 module.exports = router;

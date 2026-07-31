@@ -91,3 +91,11 @@ exports.eliminar = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 }
+
+exports.productos = async (req, res) => {
+    try {
+        res.render('pages/productos');
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}

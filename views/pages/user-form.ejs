@@ -12,14 +12,14 @@
     </header>
 
     <section id="cliente-form">
-        <h2>Registrar cliente</h2>
+        <h2>Registrar Usuario</h2>
         <div class="container">
             <form action="/api/v1/usuarios" method="POST">
                 <div class="mb-3">
                     <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Correo" name="email">
                     <input type="password" class="form-control" id="exampleFormControlInput1" placeholder="Clave" name="password">
                     <select name="rol" id="">
-                        <option value="">Rol</option>
+                        <option value="invitado">Rol</option>
                         <option value="cliente">Cliente</option>
                         <option value="empleado">Empleado</option>
                         <option value="administrador">Administrador</option>

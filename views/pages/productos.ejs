@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head'); %>
+</head>
+
+<body class="container">
+
+    <div class="header">
+        <nav class="navbar navbar-expand-sm bg-light">
+            <div class="container-fluid">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><strong>&#10148; Volver</strong></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <button id="abrir" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#demo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-cart2" viewBox="0 0 16 16">
+                                <path
+                                    d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5M3.14 5l1.25 5h8.22l1.25-5zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0m9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0" />
+                            </svg>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <section id="cards">
+        <div class="container">
+
+        </div>
+    </section>
+
+    <div class="offcanvas offcanvas-end" id="demo">
+        <div class="offcanvas-header">
+            <h1 class="offcanvas-title">Tu Carrito</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+
+        </div>
+    </div>
+    <br>
+    <footer>
+        <%- include('../partials/footer'); %>
+    </footer>
+
+    <script>
+        fetch('https://fakestoreapi.com/products')
+    .then(response => response.json())
+    .then(data => {
+
+        // funciones
+
+        // Obtiene el localStorage________________________
+
+        function Local() {
+            return JSON.parse(localStorage.getItem("productos")) || [];
+        }
+
+        // Guarda el localStorage_________________________
+
+        function GuardarLocal(p) {
+            localStorage.setItem("productos", JSON.stringify(p));
+        }
+        // Agrega Productos del Carrito __________________
+
+        function AñadirP(p) {
+            let carrito = Local();
+
+            if (carrito.find(item => item.id == p.id)) {
+                p.cantidad += 1;
+                console.log(`Cantidad Despúes: ${p.cantidad}`);
+            } else {
+                p.cantidad = 1;
+                console.log(`cantidad Actual: ${p.cantidad}`);
+                carrito.unshift(p);
+            }
+
+            GuardarLocal(carrito);
+            MostrarCarrito();
+            console.log(Local());
+        }
+
+        // Eliminar Productos del Carrito_________________
+
+        function EliminarP(i) {
+            let carrito = Local();
+
+            carrito.splice(i, 1);
+            GuardarLocal(carrito);
+            document.querySelector('#demo .offcanvas-body').innerHTML = "";
+            MostrarCarrito();
+        }
+
+        // Mostrar Carrito________________________________
+
+        function MostrarCarrito() {
+            let carrito = Local();
+            let body = document.querySelector("#demo .offcanvas-body");
+            body.innerHTML = ``;
+            carrito.forEach((i, index) => {
+                let container = document.createElement("div");
+                let br = document.createElement("br");
+                let h4 = document.createElement("h4");
+                let h41 = document.createElement("h4");
+                let img = document.createElement("img");
+                let btn = document.createElement("button");
+                let ope = document.createElement("div");
+                let btnS = document.createElement("button");
+                let p = document.createElement("p");
+                let btnR = document.createElement("button");
+                container.className = "container1";
+
+                h4.innerText = `Producto: ${i.title}`;
+                container.appendChild(h4);
+                
+                container.appendChild(br);
+
+                h41.innerText = `$${i.price}`;
+                container.appendChild(h41);
+
+                container.appendChild(br);
+                
+                img.src = `${i.image}`;
+                container.appendChild(img);
+
+                container.appendChild(br);
+                
+                ope.className = `operaciones`;
+                btnS.innerText = "+";
+                p.innerText = `${i.cantidad}`;
+                btnR.innerText = "-";
+                ope.appendChild(btnS);
+                ope.appendChild(p);
+                ope.appendChild(btnR);
+                container.appendChild(ope);
+                btnS.addEventListener("click", () => {
+                    i.cantidad ++;
+                    MostrarCarrito()
+                });
+                GuardarLocal(carrito);
+
+                btn.className = `eliminar`;
+                btn.innerText = `Eliminar del Carrito`;
+                container.appendChild(btn);
+
+                body.appendChild(container);
+                
+                let boton = container.querySelector(".eliminar");
+                boton.addEventListener("click", () => { EliminarP(index) });
+                
+            });
+            console.log(carrito);
+        }
+
+        // funciones End
+
+        let cards = document.querySelector("#cards .container");
+
+        data.forEach(i => {
+            let carta = document.createElement("div");
+            carta.className = "card";
+
+            let h3 = document.createElement("h3");
+            let img = document.createElement("img");
+            let h4 = document.createElement("h4");
+            let btn = document.createElement("button");
+
+            h3.innerText = `${i.title}`;
+            carta.appendChild(h3);
+
+            img.src = `${i.image}`;
+            carta.appendChild(img);
+            
+            h4.innerText = `$${i.price}`;
+            carta.appendChild(h4);
+            
+            btn.innerText = `Agregar al carrito`;
+            btn.className = "btn";
+            carta.appendChild(btn);
+
+
+            cards.appendChild(carta);
+            let boton = carta.querySelector(".btn");
+            boton.addEventListener("click", () => AñadirP(i));
+        });
+
+
+        let car = document.querySelector("#abrir");
+        car.addEventListener("click", () => MostrarCarrito());
+
+    });
+
+    </script>
+</body>
+</html>
+
+<style>
+    body {
+    padding: 0;
+    cursor: default;
+}
+
+.container {
+    max-width: 1600px;
+}
+
+.container {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    justify-self: center;
+    width: 100%;
+}
+
+.header {
+    width: 100%;
+
+    nav {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        justify-self: center;
+
+        .container-fluid {
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin: 0 10px;
+
+            .navbar-nav {
+                width: 100%;
+                justify-content: space-between !important;
+
+                .nav-item {
+                    transition: transform 0.3s ease;
+                }
+                .nav-item:hover {
+                    transform: translateY(-5px);
+                }
+            }
+        }
+    }
+
+    #abrir svg{
+        height: 30px;
+        width: 30px;
+    }
+}
+
+#cards {
+    display: flex;
+    justify-content: center;
+    justify-self: center;
+    align-items: center;
+    align-self: center;
+    .container{
+        margin: 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        grid-gap: 20px;
+        padding: 0;
+        place-items: center;
+
+        .card {
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            text-align: center;
+            background-color: #d9d9d9;
+            height: 40vh;
+            width: 20vh;
+            padding: 10px;
+            transition: transform 0.3s ease, box-shadow 0.2s ease;
+
+            h3{margin: 10px; font-size: 1rem;}
+
+            .btn{
+                display: grid;
+                place-items: center;
+                cursor: pointer;
+                background-color: #f3f3f3;
+                border: 1px solid #888;
+                border-radius: 5px;
+                width: 100%;
+                height: 5vh;
+                transition: background-color 500ms ease, transform .1s ease;
+            }
+            .btn:hover {
+                background-color: #c3c3c3;
+            }
+            .btn:active {
+                transform: translateY(-3px);
+            }
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0px 2px 60px 2px rgba(0,0,0,0.5);
+        }
+        
+        img {
+            max-height: 9vh;
+            min-height: 2vh;
+        }
+    }
+}
+
+
+.offcanvas-body .container1 {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    background-color: #f3f3f3;
+    border: 1px solid #b3b3b3;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 20px 0 rgba(100, 100, 100);
+    margin-bottom: 20px;
+    height: 40vh;
+
+    .eliminar {
+        width: 100%;
+        border: 1px solid rgba(100,100,100,0.5);
+        transition: background-color 500ms ease, transform .1s ease;
+    }
+    .eliminar:hover {
+        background-color: #d3d0d0;
+    }
+    .eliminar:active {
+        transform: translateY(-3px);
+    }
+
+    h4{font-size: 0.8rem;}
+    img{height: 10vh; width: 10vh;}
+
+    .operaciones {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+        text-align: center;
+        gap: 10px;
+
+        button {
+            border: 1px solid #c3c3c3;
+            height: 20px; 
+            width: 20px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            transition: background-color 500ms ease;
+        }
+        button:hover {
+            background-color: #e3e3e3;
+        }
+
+        p {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+    }
+}
+
+#abrir {
+    background-color: #c3c3c3;
+    border: 1px solid #b3b3b3;
+    color: #333;
+    transition: background-color 500ms ease;
+}
+
+#abrir:hover {
+    background-color: #b3b3b3;
+}
+
+#demo .offcanvas-header .offcanvas-title, .btn-close {
+    transition: transform 0.2s ease-out;
+}
+
+#demo .offcanvas-header .offcanvas-title:hover, .btn-close:hover {
+    transform: translateY(-5px);
+}
+</style>

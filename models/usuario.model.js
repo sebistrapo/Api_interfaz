@@ -12,12 +12,11 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         trim: true,
-        minLength: [7, 'Ingresaste una contraseña muy corta'],
+        minLength: [7, 'Ingresaste una contraseña muy corta']
     },
     rol: {
         type: String,
-        default: 'invitado',
-        enum : ['cliente', 'empleado', 'administrador']
+        enum : ['cliente', 'empleado', 'administrador', 'invitado']
     }
 
 });

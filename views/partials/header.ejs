@@ -1,43 +1,48 @@
 <nav class="navbar">
-    <a href="/" class="git navbar-brand">Git<span class="hub">Hub</span></a>
-        <li class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Clientes
-            </a>
-            <ul class="dropdown-menu">
-                <li class="nav-item"><a class="dropdown-item" href="/api/v1/clientes">Ver Clientes</a></li>
-                <li class="nav-item"><a class="dropdown-item" href="/api/v1/cliente-form">Registrar Cliente</a></li>
-            </ul>
-        </li>
-        <li class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Usuarios
-            </a>
-            <ul class="dropdown-menu">
-                <li class="nav-item"><a class="dropdown-item" href="/api/v1/usuarios">Ver Usuarios</a></li>
-                <li class="nav-item"><a class="dropdown-item" href="/api/v1/user-form">Registrar Usuario</a></li>
-            </ul>
-        </li>
-        <li class="nav-item contacto"><a href="/api/v1/contacto" class="nav-link">Contacto</a></li>
+    <a href="/" class="git navbar-brand link-ani">Git<span class="hub">Hub</span></a>
+    <li class="nav-item dropdown link-ani">
+        <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Clientes
+        </a>
+        <ul class="dropdown-menu">
+            <li class="nav-item"><a class="dropdown-item" href="/api/v1/clientes">Ver Clientes</a></li>
+            <li class="nav-item"><a class="dropdown-item" href="/api/v1/cliente-form">Registrar Cliente</a></li>
+        </ul>
+    </li>
+    <li class="nav-item dropdown link-ani">
+        <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Usuarios
+        </a>
+        <ul class="dropdown-menu">
+            <li class="nav-item"><a class="dropdown-item" href="/api/v1/usuarios">Ver Usuarios</a></li>
+            <li class="nav-item"><a class="dropdown-item" href="/api/v1/user-form">Registrar Usuario</a></li>
+        </ul>
+    </li>
+    <li class="nav-item linkCo link-ani"><a href="/api/v1/contacto" class="nav-link">Contacto</a></li>
+    <li class="nav-item linkCo link-ani"><a href="/api/v1/productos" class="nav-link">Productos</a></li>
 
 </nav>
 
 <style>
-    .contacto {
+    .linkCo {
         color: #f3f3f3;
         list-style: none;
         font-size: 1.7rem;
     }
+
     .dropdown-toggle {
         color: #f3f3f3;
         font-size: 1.7rem;
     }
+
     .dropdown-toggle:hover {
         color: #fff !important;
     }
+
     .dropdown-toggle:focus {
         color: #fff !important;
     }
+
     header {
         background-color: rgb(30, 30, 48);
         height: 10vh;
@@ -55,9 +60,11 @@
         margin-right: 20px;
         font-weight: bold;
     }
+
     .git:hover {
         color: #f3f3f3;
     }
+
     .hub {
         color: #000;
         background-color: orange;
@@ -69,13 +76,23 @@
         color: #f3f3f3;
         font-size: 1.3rem;
     }
+
     .nav:hover {
         color: #ddd;
     }
+
     .navbar {
         display: flex;
         flex-direction: row;
         justify-content: space-around;
         width: 100%;
+    }
+
+    .link-ani {
+        transition: transform .3s ease;
+    }
+
+    .link-ani:hover {
+        transform: translateY(-3px);
     }
 </style>

@@ -16,9 +16,9 @@
         <div class="container">
             <form action="/api/v1/email-adress" method="POST">
                 <div class="mb-3">
-                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Asunto" name="subject">
-                    <textarea class="form-control" id="exampleFormControlInput1" placeholder="Mensaje" name="text"></textarea>
-                    <button type="submit" class="btn btn-primary" id="msj"onclick="const msj = document.querySelector('#msj');msj.style.display = 'block';">Enviar</button>
+                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Asunto" name="subject" required>
+                    <textarea class="form-control" id="exampleFormControlInput1" placeholder="Mensaje" name="text" required></textarea>
+                    <button type="submit" class="btn btn-primary" id="msj" >Enviar</button>
                 </div>
             </form>
         </div>
