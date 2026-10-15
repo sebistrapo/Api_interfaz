@@ -1,4 +1,5 @@
 const modeloCliente = require('../models/cliente.model');
+const logger = require('../services/log');
 
 exports.inicio = async (req, res) => {
     try {
@@ -55,6 +56,7 @@ exports.insertar = async (req, res) => {
        console.log(clienteNuevo);
        
         const clientes = await modeloCliente.insertOne(clienteNuevo);
+        logger.escribirLog('Nuevo usuario Insertado', req.body.nombre)
 
         res.redirect('/api/v1/clientes');
     } catch (error) {
@@ -76,6 +78,8 @@ exports.update = async (req, res) => {
             { $set:clienteActualizado }
         );
 
+        logger.escribirLog('Ha sido Actualizado', req.body.nombre)
+
         res.redirect('/api/v1/clientes');
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -85,6 +89,8 @@ exports.update = async (req, res) => {
 exports.eliminar = async (req, res) => {
     try {
         const cliente = await modeloCliente.findOneAndDelete({ telefono: req.params.telefono});
+
+        logger.escribirLog('Ha sido Eliminado', cliente.nombre)
 
         res.redirect('/api/v1/clientes');
     } catch (error) {

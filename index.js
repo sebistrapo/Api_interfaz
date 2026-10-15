@@ -2,10 +2,6 @@ const express = require('express');
 const clienteController = require('./controllers/cliente.controller');
 const servicioControl = require('./controllers/servicio.controller');
 
-
-
-
-
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -17,7 +13,6 @@ app.use(methodOverride('_method'));
 
 const enrutamiento = require('./routes/enrutamiento.router');
 app.use('/api/v1', enrutamiento);
-
 
 
 app.get('/', clienteController.inicio);
