@@ -1,5 +1,4 @@
 const modeloServicio = require('../models/peluqueria.model');
-const logger = require('../services/log');
 
 exports.listar = async (req, res) => {
     try {
@@ -37,7 +36,6 @@ exports.insertar = async (req, res) => {
            categoria: req.body.categoria
        };
         const servicio = await modeloServicio.insertOne(servicioNuevo);
-        logger.escribirLog('Producto nuevo Insertado', req.body.nombre)
 
         res.json(servicio);
     } catch (error) {
@@ -60,8 +58,6 @@ exports.update = async (req, res) => {
             { nombre: req.params.nombre },
             { $set:servicioActualizado }
         );
-        
-        logger.escribirLog('Ha sido actualizado', req.params.nombre)
 
         res.json(servicio);
     } catch (error) {
@@ -72,7 +68,6 @@ exports.update = async (req, res) => {
 exports.eliminar = async (req, res) => {
     try {
         const servicios = await modeloServicio.findOneAndDelete({ nombre: req.params.nombre});
-        logger.escribirLog('Producto Eliminado', req.body.nombre)
 
         res.json(servicios);
     } catch (error) {

@@ -70,7 +70,7 @@
 
     
 
-    function Detalles(i, e, c, r) {
+    function Detalles(i, e, p, r) {
         ModalDetalles.style.visibility = "visible";
         let container = document.querySelector('#ModalDetalles .modalBody');
         container.innerHTML = "";
@@ -85,7 +85,7 @@
         let span2 = document.createElement("span");
         let span3 = document.createElement("span");
         let datos1 = document.createTextNode(i);
-        let datos2 = document.createTextNode(c);
+        let datos2 = document.createTextNode(e);
         let datos3 = document.createTextNode(r);
         let spandata = document.createElement("span");
         let data = document.createTextNode(e);
@@ -107,7 +107,7 @@
         span3.classList = "font-weight";
 
         span1.textContent = `ID: `;
-        span2.textContent = `Contraseña: `;
+        span2.textContent = `Correo: `;
         span3.textContent = `Rol: `;
 
         li1.appendChild(span1);
@@ -129,7 +129,7 @@
         })
     }
 
-    function Editar(i, n, e, t) {
+    function Editar(i, e, p, r) {
         ModalEditar.style.visibility = "visible";
 
         let container = document.querySelector('#ModalEditar .modalBody');
@@ -151,14 +151,14 @@
         CloseEditar.classList = "btn btnClose";
         CloseEditar.textContent = "Cerrar";
         btn.classList = "btn-verificar";
-        form.action = `/api/v1/clientes/${t}?_method=PUT`;
+        form.action = `/api/v1/usuarios/${e}?_method=PUT`;  
         form.method = "POST";
         input1.name = "Correo";
         input2.name = "Clave";
         input3.name = "Rol";
-        input1.defaultValue = `${n}`;
-        input2.defaultValue = `${e}`;
-        input3.defaultValue = `${t}`;
+        input1.defaultValue = `${e}`;
+        input2.defaultValue = `${p}`;
+        input3.defaultValue = `${r}`;
         btn.textContent = "Verificar";
         btn.type = "submit";
 

@@ -15,7 +15,7 @@ router.delete('/clientes/:telefono', clienteController.eliminar);
 router.get('/usuarios', usuarioController.listar);
 // router.get('/cliente/:telefono', usuarioController.buscar);
 router.post('/usuarios', usuarioController.insertar);
-// router.put('/clientes/:telefono', usuarioController.update);
+router.put('/usuarios/:telefono', usuarioController.update);
 // router.delete('/clientes/:telefono', usuarioController.eliminar);
 
 router.get('/contacto', usuarioController.contacto);

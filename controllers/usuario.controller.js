@@ -1,5 +1,6 @@
 const modeloUsuario = require('../models/usuario.model');
 const servicesEmail = require('../services/email.service');
+const logger = require('../services/log')
 
 exports.contacto = async (req, res) => {
     try {
@@ -52,34 +53,32 @@ exports.insertar = async (req, res) => {
            rol: req.body.rol
        };
 
-       
         const usuario = await modeloUsuario.insertOne(usuarioNuevo);
-
+        logger.escribirLog('Usuario registrado', usuario.email);
         res.redirect('/api/v1/usuarios');
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 }
 
-// exports.update = async (req, res) => {
-//     try {
-//         let clienteActualizado = {
-//            nombre: req.body.nombre,
-//            email: req.body.email,
-//            telefono: req.body.telefono
-//        };
+exports.update = async (req, res) => {
+    try {
+        let usuarioActualizado = {
+           email: req.body.email,
+           telefono: req.body.password,
+           rol: req.body.rol
+        }
 
-
-//         const cliente = await modeloCliente.updateOne(
-//             { "telefono": req.params.telefono },
-//             { $set:clienteActualizado }
-//         );
-
-//         res.redirect('/api/v1/clientes');
-//     } catch (error) {
-//         res.status(500).json({ error: error.message });
-//     }
-// }
+        const usuario = await modeloUsuario.updateOne(
+            { "email": req.params.email },
+            { $set:usuarioActualizado }
+        )
+        logger.escribirLog('Usuario Actualizado', req.body.nombre)
+        res.redirect('/api/v1/usuarios');
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
 
 // exports.eliminar = async (req, res) => {
 //     try {

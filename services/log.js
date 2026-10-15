@@ -14,7 +14,7 @@ exports.leerLogs = async () => {
 exports.escribirLog = async (action, user) => {
 //   const timestamp = new Date().toISOString();
 
-    let mensaje = `\n${new Date().toISOString()} - ${user} - ${action}`
+    let mensaje = `${new Date().toISOString()} - ${user} - ${action}\n`
 
   // appendFile agrega texto al final del archivo
   fs.appendFile('logger.log', mensaje, 'utf-8', (error) => {
@@ -26,5 +26,3 @@ exports.escribirLog = async (action, user) => {
     console.log('Log registrado correctamente.');
   });
 }
-
-module.exports = { leerLogs, escribirLog }
